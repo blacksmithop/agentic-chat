@@ -1,8 +1,10 @@
 from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_community.tools import WikipediaQueryRun
+from langchain_community.utilities import WikipediaAPIWrapper
+from utils.retriever import retriever_tool
 from langchain_core.messages import ToolMessage
 from langgraph.graph import END
 from utils import State
-from utils.retriever import retriever_tool
 import json
 
 
@@ -19,12 +21,10 @@ class BasicToolNode:
             raise ValueError("No message found in input")
         outputs = []
         for tool_call in message.tool_calls:
-            tool_name = tool_call['name']
-            tool_args = tool_call['args']
-            tool_call_id=tool_call["id"]
-            tool_result = self.tools_by_name[tool_name].invoke(
-                tool_args
-            )
+            tool_name = tool_call["name"]
+            tool_args = tool_call["args"]
+            tool_call_id = tool_call["id"]
+            tool_result = self.tools_by_name[tool_name].invoke(tool_args)
             outputs.append(
                 ToolMessage(
                     content=json.dumps(tool_result),
@@ -33,6 +33,7 @@ class BasicToolNode:
                 )
             )
         return {"messages": outputs}
+
 
 def route_tools(
     state: State,
@@ -51,7 +52,9 @@ def route_tools(
         return "tools"
     return END
 
-duckduckgo_tool = DuckDuckGoSearchRun()
 
-
-tools = [duckduckgo_tool, retriever_tool]
+tools = [
+    DuckDuckGoSearchRun(),
+    WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper()),
+    retriever_tool,
+]
