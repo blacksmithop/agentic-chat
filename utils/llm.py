@@ -1,10 +1,11 @@
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
 from dotenv import load_dotenv
 from os import getenv
-
+from utils import settings
 
 load_dotenv()
 
-llm = AzureChatOpenAI(azure_deployment=getenv("AZURE_CHAT_MODEL"))
+# Consider LLM selection through Configurable
 
-embeddings = AzureOpenAIEmbeddings(azure_deployment=getenv("AZURE_EMBEDDING_MODEL"))
+chat_model = AzureChatOpenAI(azure_deployment=settings.AZURE_CHAT_MODEL)
+embedding_model = AzureOpenAIEmbeddings(azure_deployment=settings.AZURE_EMBEDDING_MODEL)

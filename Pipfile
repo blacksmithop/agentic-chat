@@ -11,6 +11,10 @@ langchain-tavily = "*"
 langchain-community = "*"
 faiss-cpu = "*"
 wikipedia = "*"
+langgraph-cli = "*"
+beautifulsoup4 = "*"
+langgraph-checkpoint-sqlite = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 ipykernel = "*"
