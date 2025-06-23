@@ -21,6 +21,11 @@ class LoginRequest(BaseModel):
 class LoginResponse(BaseModel):
     user: dict
     token: str
+    
+    
+# Sign jwt with a per-user passphrase / jwt
+# When password changes / periodically refresh it
+# This will allow for a /validate-token that doesn't work with stale tokens
 
 @router.post("/login", response_model=dict)
 async def login(request: LoginRequest, db: Session = Depends(get_db)):
@@ -55,7 +60,9 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.nickname == request.nickname.strip()).first()
     if user:
         logger.error("Nickname already in database")
-        # TODO: Handle same user wishes to re-join
+        # TODO: Handle same user wishes to re-join under different nickname
+        # In such scenario release nickname back to the pool. Nicknames have expire to prevent name squatting
+        # Allow nickname reserve by in-chat currency (tied to activity)
         # raise HTTPException(
         #     status_code=409,
         #     detail="Nickname already taken"
@@ -113,8 +120,11 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
 
 @router.post("/logout")
 async def logout(current_user: User = Depends(get_current_user)):
+    logger.info("Logged out successfully")
     return {"success": True, "message": "Logged out successfully"}
 
 @router.get("/me")
 async def get_current_user_info(current_user: User = Depends(get_current_user)):
-    return {"success": True, "data": current_user.to_dict()}
+    logger.info(f"Fetching user data for {current_user.nickname} ({current_user.id})")
+    current_user_data = current_user.to_dict()
+    return current_user_data
