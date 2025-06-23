@@ -21,16 +21,22 @@ class User(Base):
     __tablename__ = "users"
     
     id = Column(Integer, primary_key=True, index=True)
+    # secret = Column(String(20), unique=True, nullable=False)
+    # TODO: System generated passphrase
+    
     nickname = Column(String(20), unique=True, index=True, nullable=False)
     age_group = Column(String(20), nullable=False)
-    avatar = Column(String(500))
+    avatar = Column(String(500)) # TODO: Dicebear only store the hash
     chat_color = Column(String(7), default="#3B82F6")
     roles = Column(JSON, default=["Member"])
     previous_nicknames = Column(JSON, default=[])
     status = Column(Enum(UserStatus), default=UserStatus.ONLINE)
+    
     settings = Column(JSON, default={})
+    
     is_active = Column(Boolean, default=True)
     is_banned = Column(Boolean, default=False)
+
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     last_seen = Column(DateTime(timezone=True), server_default=func.now())
     
