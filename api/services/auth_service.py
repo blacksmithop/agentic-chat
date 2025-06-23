@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from jose import jwt
+from jose.exceptions import JWTError
 from datetime import datetime, timedelta
 from typing import Optional
 
