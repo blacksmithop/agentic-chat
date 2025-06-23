@@ -15,6 +15,10 @@ langgraph-cli = "*"
 beautifulsoup4 = "*"
 langgraph-checkpoint-sqlite = "*"
 pydantic-settings = "*"
+fastapi = "*"
+uvicorn = "*"
+python-jose = "*"
+aiofiles = "*"
 
 [dev-packages]
 ipykernel = "*"
