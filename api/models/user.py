@@ -47,3 +47,12 @@ class User(Base):
             "joinedAt": self.created_at.isoformat() if self.created_at else None,
             "lastSeen": self.last_seen.isoformat() if self.last_seen else None
         }
+
+    # Add secret (only known to db and API during validation)
+    # Method for frontend-facing usage
+    #  @property
+    # def public_data(self):
+    #     return {
+    #         'id': self.id,
+    #         'nickname': self.nickname
+    #     }
