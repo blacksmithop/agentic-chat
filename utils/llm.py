@@ -1,6 +1,5 @@
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
 from dotenv import load_dotenv
-from os import getenv
 from utils import settings
 
 load_dotenv()
