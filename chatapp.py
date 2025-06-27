@@ -1,6 +1,6 @@
 import streamlit as st
 from utils import graph
-from utils.streamlit import assets, render
+from utils.streamlit import assets, render, b64_image
 from uuid import uuid4
 from langgraph.types import Command
 from datetime import datetime
@@ -51,11 +51,14 @@ if Path(CSS_PATH).is_file():
 
 # Header
 st.markdown(
-    """
+    f"""
     <div class="main-container">
         <div class="chat-header">
             <h1 class="chat-title">Langraph Chatbot</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.8;">by Abhinav KM</p>
+            <a href="https://github.com/blacksmithop/ai-powered-chatroom"
+                target="_blank" class="github-avatar">
+                {b64_image(assets.github_icon)}
+                </a>
         </div>
     </div>
     """,

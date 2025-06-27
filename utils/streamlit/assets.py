@@ -11,8 +11,9 @@ def get_base64_image(image_path):
 
 # Load icons
 bot_icon = get_base64_image("./assets/images/icons/bot.png")
-user_icon = get_base64_image("./assets/images/icons/user.png")
+github_icon = get_base64_image("./assets/images/icons/github.png")
 system_icon = get_base64_image("./assets/images/icons/system.png")
-tools_icon = get_base64_image("./assets/images/icons/tools.png")
 support_icon = get_base64_image("./assets/images/icons/support.png")
 settings_icon = get_base64_image("./assets/images/icons/settings.png")
+tools_icon = get_base64_image("./assets/images/icons/tools.png")
+user_icon = get_base64_image("./assets/images/icons/user.png")

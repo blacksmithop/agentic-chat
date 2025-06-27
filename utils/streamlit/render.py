@@ -1,14 +1,14 @@
 import streamlit as st
 from .assets import (
     bot_icon,
-    # settings_icon,
-    support_icon,
     system_icon,
-    # tools_icon,
     user_icon,
 )
 from .annotate import annotate_urls
 from annotated_text.util import get_annotated_html
+
+def b64_image(icon):
+    return f'<img src="data:image/png;base64,{icon}">'
 
 # Helper function to render tool usage component
 def render_tool_usage_component(tool_call, is_loading=False):
@@ -88,7 +88,7 @@ def display_messages():
                 current_bot_timestamp = None
 
             # Display user message
-            avatar_content = f'<img src="data:image/png;base64,{user_icon}" style="width:24px;height:24px;">'
+            avatar_content = b64_image(user_icon)
             
             is_annotated, annotated_parts = annotate_urls(text=content)
             
@@ -115,7 +115,7 @@ def display_messages():
                 current_bot_timestamp = None
 
             # Display system message
-            avatar_content = f'<img src="data:image/png;base64,{system_icon}" style="width:24px;height:24px;">'
+            avatar_content = b64_image(system_icon)
 
             st.markdown(
                 f"""
@@ -147,7 +147,7 @@ def display_messages():
 
 def display_bot_section(messages, timestamp):
     """Display a grouped bot section without bubbles"""
-    avatar_content = f'<img src="data:image/png;base64,{bot_icon}" style="width:24px;height:24px;">'
+    avatar_content = b64_image(bot_icon)
 
     st.markdown(
         f"""

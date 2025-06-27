@@ -1,5 +1,6 @@
 from .assets import *
 from .render import (
+    b64_image,
     display_messages,
     display_bot_section,
     render_tool_usage_component,
