@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "1658e57c-476c-4c73-a851-25d65f766b1b",
+		"name": "Routers",
+		"description": "## Routers:\n\n1. Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11946508",
+		"_collection_link": "https://www.postman.com/insertcheesyline/workspace/chat-application-langgraph/collection/11946508-1658e57c-476c-4c73-a851-25d65f766b1b?action=share&source=collection_link&creator=11946508"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Parse JSON safely\r",
+									"let responseData;\r",
+									"try {\r",
+									"    responseData = pm.response.json();\r",
+									"} catch (e) {\r",
+									"    pm.test(\"Response is valid JSON\", function () {\r",
+									"        pm.expect(e).to.be.null;\r",
+									"    });\r",
+									"    throw new Error(\"Response is not valid JSON\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Check if required keys exist\", function () {\r",
+									"    // Use include.keys to allow additional keys\r",
+									"    pm.expect(responseData).to.include.keys('user', 'token');\r",
+									"    pm.expect(responseData.token).to.be.a('string'); // Ensure token is a string (adjust type as needed)\r",
+									"});\r",
+									"\r",
+									"// Set environment variable only if tests pass\r",
+									"pm.collectionVariables.set(\"token\", responseData.token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nickname\": \"adam\",\r\n  \"ageGroup\": \"adults\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseApiUrl}}/auth/login",
+							"host": [
+								"{{baseApiUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nickname\": \"adam\",\r\n  \"ageGroup\": \"adults\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseApiUrl\n}}/auth/login",
+									"host": [
+										"{{baseApiUrl\n}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Tue, 24 Jun 2025 05:19:15 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "451"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "x-ratelimit-limit",
+									"value": "100"
+								},
+								{
+									"key": "x-ratelimit-remaining",
+									"value": "98"
+								},
+								{
+									"key": "x-ratelimit-reset",
+									"value": "1750742415"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"id\": \"1\",\n        \"nickname\": \"adam\",\n        \"ageGroup\": \"adults\",\n        \"avatar\": \"https://api.dicebear.com/7.x/avataaars/svg?seed=adam&backgroundColor=transparent\",\n        \"chatColor\": \"#F97316\",\n        \"roles\": [\n            \"Member\"\n        ],\n        \"previousNicknames\": [],\n        \"status\": \"online\",\n        \"joinedAt\": \"2025-06-24T05:03:26\",\n        \"lastSeen\": \"2025-06-24T05:03:26\"\n    },\n    \"token\": \"{{vault:json-web-token}}\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Me",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Parse JSON safely\r",
+									"let responseData;\r",
+									"try {\r",
+									"    responseData = pm.response.json();\r",
+									"} catch (e) {\r",
+									"    pm.test(\"Response is valid JSON\", function () {\r",
+									"        pm.expect(e).to.be.null;\r",
+									"    });\r",
+									"    throw new Error(\"Response is not valid JSON\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Check if required keys exist\", function () {\r",
+									"    // Use include.keys to allow additional keys\r",
+									"    pm.expect(responseData).to.include.keys('id', 'nickname');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseApiUrl}}/auth/me",
+							"host": [
+								"{{baseApiUrl}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseApiUrl\n}}/auth/me",
+									"host": [
+										"{{baseApiUrl\n}}"
+									],
+									"path": [
+										"auth",
+										"me"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Tue, 24 Jun 2025 05:25:42 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "288"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "x-ratelimit-limit",
+									"value": "100"
+								},
+								{
+									"key": "x-ratelimit-remaining",
+									"value": "99"
+								},
+								{
+									"key": "x-ratelimit-reset",
+									"value": "1750742802"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"1\",\n    \"nickname\": \"adam\",\n    \"ageGroup\": \"adults\",\n    \"avatar\": \"https://api.dicebear.com/7.x/avataaars/svg?seed=adam&backgroundColor=transparent\",\n    \"chatColor\": \"#F97316\",\n    \"roles\": [\n        \"Member\"\n    ],\n    \"previousNicknames\": [],\n    \"status\": \"online\",\n    \"joinedAt\": \"2025-06-24T05:03:26\",\n    \"lastSeen\": \"2025-06-24T05:03:26\"\n}"
+						}
+					]
+				}
+			],
+			"description": "### Endpoints\n\n### `/login`"
+		},
+		{
+			"name": "Index",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if key exists\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.keys(['message'])\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Example",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 24 Jun 2025 04:59:36 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "46"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"ChatConnect API is running! 🚀\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "baseApiUrl",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmlja25hbWUiOiJhZGFtIiwiZXhwIjoxNzUwOTM5ODA3fQ.95pNHQ5PWUEB5NaKStBNCHtkSlknUqG8MlNwfdMs2xs"
+		}
+	]
+}
