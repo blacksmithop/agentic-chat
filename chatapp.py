@@ -192,10 +192,11 @@ if st.session_state.pending_interrupt:
             st.session_state.pending_interrupt = None
             st.session_state.interrupt_query = ""
             st.rerun()
+    st.rerun()
 
 # Chat input
 user_input = st.chat_input(
-    "💬 Type your message here...", disabled=st.session_state.pending_interrupt
+    "💬 Type your message here...", disabled=bool(st.session_state.pending_interrupt)
 )
 
 if user_input and not st.session_state.pending_interrupt:
