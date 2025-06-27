@@ -8,7 +8,15 @@ memory = MemorySaver()
 llm_with_tools = chat_model.bind_tools(tools)
 
 def chatbot(state: State):
+    from langchain.schema import AIMessage
+    
+    # update system prompt
     return {"messages": [llm_with_tools.invoke(state["messages"])]}
+    # return {
+    #     "messages": [
+    #         AIMessage(content="Hi", role="assistant")
+    #     ]
+    # }
 
 graph_builder.add_node("chatbot", chatbot)
 

@@ -112,6 +112,7 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
     
     # Create JWT token
     token = create_access_token(data={"sub": str(user.id), "nickname": user.nickname})
+    # TODO: Add expiry
     logger.info(f"Created access token for user: {user.nickname} ({user.id})")
     return {
         "user": user.to_dict(),
