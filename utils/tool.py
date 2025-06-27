@@ -1,8 +1,9 @@
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_community.tools import WikipediaQueryRun
 from langchain_community.utilities import WikipediaAPIWrapper
-from utils.retriever import retriever_tool
-from utils.web_crawl import crawl_and_index_url
+from utils.tools.retriever import retriever_tool
+from utils.tools.web_crawl import crawl_and_index_url
+from utils.tools.human import human_assistance
 from langchain_core.messages import ToolMessage
 from langgraph.graph import END
 from utils import State
@@ -58,5 +59,6 @@ tools = [
     DuckDuckGoSearchRun(),
     WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper()),
     retriever_tool,
-    crawl_and_index_url
+    crawl_and_index_url,
+    human_assistance
 ]
