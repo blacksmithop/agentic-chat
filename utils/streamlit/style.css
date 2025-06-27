@@ -45,6 +45,16 @@ header {
     margin: 0;
 }
 
+/* Github Icon */
+.github-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background: linear-gradient(45deg, #f4f5f9 0%, #764ba2 100%);
+}
+
 /* User Messages - Keep bubbles */
 .user-message {
     display: flex;
@@ -305,3 +315,14 @@ header {
         margin-left: 45px;
     }
 }
+
+/* .footer {
+    text-align: center;
+    padding: 20px;
+    opacity: 0.6;
+    font-size: 14px;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+} */

@@ -295,11 +295,11 @@ if st.session_state.is_processing and not st.session_state.pending_interrupt:
         st.rerun()
 
 # Footer
-st.markdown(
-    """
-    <div style="text-align: center; padding: 20px; opacity: 0.6; font-size: 14px;">
-        <p>🚀 Powered by LangGraph • Built with Streamlit</p>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+# st.markdown(
+#     """
+#     <div class="footer">
+#         <p>🚀 Powered by LangGraph • Built with Streamlit</p>
+#     </div>
+#     """,
+#     unsafe_allow_html=True,
+# )
