@@ -19,6 +19,8 @@ fastapi = "*"
 uvicorn = "*"
 python-jose = "*"
 aiofiles = "*"
+streamlit = "*"
+st-annotated-text = "*"
 
 [dev-packages]
 ipykernel = "*"
