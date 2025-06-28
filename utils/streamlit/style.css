@@ -77,7 +77,7 @@ header {
 
 .user-content {
     flex: 1;
-    font-size: 18px;
+    font-size: 20px;
     background: linear-gradient(45deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
     backdrop-filter: blur(10px);
     border-radius: 15px;
@@ -85,6 +85,11 @@ header {
     border: 1px solid rgba(102, 126, 234, 0.2);
     line-height: 1.6;
     max-width: calc(100% - 55px);
+}
+
+/* show pointer on hovering annotations */
+.user-content span span {
+    cursor: pointer;
 }
 
 /* Bot Messages - No bubbles, flat design */
@@ -114,7 +119,7 @@ header {
 .bot-name {
     font-weight: 600;
     color: #f093fb;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .bot-timestamp {
@@ -125,7 +130,7 @@ header {
 }
 
 .bot-content {
-    font-size: 18px;
+    font-size: 20px;
     color: #e5e5e5;
     line-height: 1.6;
 }
@@ -326,3 +331,19 @@ header {
     width: 100%;
     z-index: 1000;
 } */
+
+/* Expand */
+.stExpander {
+    background-color: rgb(189, 188, 188);
+    color: black;
+}
+
+.stExpander details summary span div p {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.streamlit-expanderContent {
+    background-color: white;
+    color: black;
+}
