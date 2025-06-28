@@ -1,17 +1,19 @@
 from langgraph.graph import StateGraph, START, END
-from utils import BasicToolNode, chat_model, route_tools, settings, State, tools
+from utils import llm, settings, schema, tools
 from utils.memory import get_checkpointer
 from langgraph.checkpoint.memory import MemorySaver
 
-graph_builder = StateGraph(State)
-memory = MemorySaver()
-llm_with_tools = chat_model.bind_tools(tools)
 
-def chatbot(state: State):
+graph_builder = StateGraph(schema.State)
+memory = MemorySaver()
+
+def chatbot(state: schema.State):
     from langchain.schema import AIMessage
     
-    # update system prompt
-    return {"messages": [llm_with_tools.invoke(state["messages"])]}
+    # Handle memory better
+    return {"messages": [llm.qa_chain.invoke({
+        "messages": state["messages"]
+    })]}
     # return {
     #     "messages": [
     #         AIMessage(content="Hi", role="assistant")
@@ -20,12 +22,12 @@ def chatbot(state: State):
 
 graph_builder.add_node("chatbot", chatbot)
 
-tool_node = BasicToolNode(tools=tools)
+tool_node = tools.BasicToolNode(tools=tools.tool_list)
 graph_builder.add_node("tools", tool_node)
 
 graph_builder.add_conditional_edges(
     "chatbot",
-    route_tools,
+    tools.route_tools,
     {"tools": "tools", END: END},
 )
 

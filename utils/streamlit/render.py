@@ -1,6 +1,7 @@
 import streamlit as st
 from .assets import (
     bot_icon,
+    support_icon,
     system_icon,
     user_icon,
 )
@@ -99,7 +100,7 @@ def display_messages():
                         {avatar_content}
                     </div>
                     <div class="user-content">
-                        {get_annotated_html(*annotated_parts) if is_annotated else content}
+                        {get_annotated_html(*annotated_parts) if is_annotated else content.rstrip()}
                         <div class="message-timestamp">{timestamp}</div>
                     </div>
                 </div>
@@ -107,6 +108,24 @@ def display_messages():
                 unsafe_allow_html=True,
             )
 
+        elif role == "support":
+            # Display support message
+            avatar_content = b64_image(support_icon)
+            
+            st.markdown(
+                f"""
+                <div class="user-message">
+                    <div class="user-avatar">
+                        {avatar_content}
+                    </div>
+                    <div class="user-content">
+                        {content}
+                        <div class="message-timestamp">{timestamp}</div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
         elif role == "system":
             # Flush any pending bot section
             if current_bot_section:
@@ -174,6 +193,7 @@ def display_bot_section(messages, timestamp):
         elif msg_type == "tool_output":
             render_tool_output_component(content)
         elif content:  # Regular text content
+
             st.markdown(
                 f"""
                 <div class="bot-content">
