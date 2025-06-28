@@ -101,7 +101,7 @@ if st.session_state.pending_interrupt:
     st.markdown(
         f"""
         <div class="interrupt-alert">
-            <h4>🆘 Human Input Required</h4>
+            <h4>🧠 Human assistance requested</h4>
             <p>Query: {st.session_state.interrupt_query}</p>
         </div>
         """,
@@ -111,13 +111,13 @@ if st.session_state.pending_interrupt:
     # Create interrupt response form
     with st.form(key="interrupt_form", clear_on_submit=True):
         human_response = st.text_area(
-            "Please provide your response:",
+            "Response:",
             key="interrupt_input",
             height=100,
             placeholder="Type your response here...",
         )
 
-        col1, col2 = st.columns([1, 4])
+        col1, col2 = st.columns([1, 2])
         with col1:
             submit_interrupt = st.form_submit_button(
                 "✅ Submit", use_container_width=True
@@ -131,8 +131,8 @@ if st.session_state.pending_interrupt:
             # Add human response to messages
             st.session_state.messages.append(
                 {
-                    "role": "user",
-                    "content": f"Support Response: {human_response}",
+                    "role": "support",
+                    "content": human_response,
                     "timestamp": get_timestamp(),
                 }
             )
@@ -238,7 +238,7 @@ if st.session_state.is_processing and not st.session_state.pending_interrupt:
                     st.session_state.messages.append(
                         {
                             "role": "system",
-                            "content": f"🔄 Human input required: {user_query}",
+                            "content": f"🔄 Connecting with a human. Query: {user_query}",
                             "timestamp": get_timestamp(),
                         }
                     )
