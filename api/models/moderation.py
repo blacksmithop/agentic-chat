@@ -3,9 +3,10 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from api.database import Base
 
+
 class ModerationLog(Base):
     __tablename__ = "moderation_logs"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     action = Column(String(20), nullable=False)  # kick, ban, whitelist, mute
     target_user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -13,10 +14,10 @@ class ModerationLog(Base):
     reason = Column(Text)
     duration = Column(Integer)  # For temporary bans (hours)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
+
     target_user = relationship("User", foreign_keys=[target_user_id])
     moderator = relationship("User", foreign_keys=[moderator_id])
-    
+
     def to_dict(self):
         return {
             "id": str(self.id),
@@ -25,5 +26,5 @@ class ModerationLog(Base):
             "moderator": self.moderator.nickname if self.moderator else "",
             "reason": self.reason,
             "duration": self.duration,
-            "timestamp": self.created_at.isoformat() if self.created_at else None
+            "timestamp": self.created_at.isoformat() if self.created_at else None,
         }

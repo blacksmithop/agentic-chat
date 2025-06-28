@@ -8,8 +8,10 @@ from .assets import (
 from .annotate import annotate_urls
 from annotated_text.util import get_annotated_html
 
+
 def b64_image(icon):
     return f'<img src="data:image/png;base64,{icon}">'
+
 
 # Helper function to render tool usage component
 def render_tool_usage_component(tool_call, is_loading=False):
@@ -68,6 +70,7 @@ def render_tool_output_component(message):
             else:
                 st.write(content)
 
+
 # Function to display messages
 def display_messages():
     st.markdown('<div class="main-container">', unsafe_allow_html=True)
@@ -90,9 +93,9 @@ def display_messages():
 
             # Display user message
             avatar_content = b64_image(user_icon)
-            
+
             is_annotated, annotated_parts = annotate_urls(text=content)
-            
+
             st.markdown(
                 f"""
                 <div class="user-message">
@@ -111,7 +114,7 @@ def display_messages():
         elif role == "support":
             # Display support message
             avatar_content = b64_image(support_icon)
-            
+
             st.markdown(
                 f"""
                 <div class="user-message">

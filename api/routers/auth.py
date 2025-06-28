@@ -14,18 +14,21 @@ import logging
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
+
 class LoginRequest(BaseModel):
     nickname: str
     ageGroup: Literal["teens", "young-adults", "adults"]
 
+
 class LoginResponse(BaseModel):
     user: dict
     token: str
-    
-    
+
+
 # Sign jwt with a per-user passphrase / jwt
 # When password changes / periodically refresh it
 # This will allow for a /validate-token that doesn't work with stale tokens
+
 
 @router.post("/login", response_model=dict)
 async def login(request: LoginRequest, db: Session = Depends(get_db)):
@@ -45,17 +48,15 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
     if len(request.nickname.strip()) < 4:
         logger.error("Nickname must be at least 4 characters long")
         raise HTTPException(
-            status_code=400,
-            detail="Nickname must be at least 4 characters long"
+            status_code=400, detail="Nickname must be at least 4 characters long"
         )
-    
+
     if len(request.nickname.strip()) > 20:
         logger.error("Nickname must be at most 20 characters long")
         raise HTTPException(
-            status_code=400,
-            detail="Nickname must be at most 20 characters long"
+            status_code=400, detail="Nickname must be at most 20 characters long"
         )
-    
+
     # Check if nickname is already taken
     user = db.query(User).filter(User.nickname == request.nickname.strip()).first()
     if user:
@@ -67,8 +68,7 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
         #     status_code=409,
         #     detail="Nickname already taken"
         # )
-    
-   
+
     else:
         # Create new user
         user = User(
@@ -84,45 +84,44 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
                     "soundEnabled": True,
                     "desktopNotifications": True,
                     "mentionNotifications": True,
-                    "privateMessageNotifications": True
+                    "privateMessageNotifications": True,
                 },
                 "privacy": {
                     "showLastSeen": True,
                     "allowPrivateMessages": True,
-                    "showTypingIndicator": True
+                    "showTypingIndicator": True,
                 },
                 "appearance": {
                     "theme": "system",
                     "fontSize": "medium",
                     "compactMode": False,
-                    "showAvatars": True
+                    "showAvatars": True,
                 },
                 "chat": {
                     "enterToSend": True,
                     "showTimestamps": True,
                     "groupMessages": True,
-                    "autoEmbedLinks": True
-                }
-            }
+                    "autoEmbedLinks": True,
+                },
+            },
         )
-        
+
         db.add(user)
         db.commit()
         db.refresh(user)
-    
+
     # Create JWT token
     token = create_access_token(data={"sub": str(user.id), "nickname": user.nickname})
     # TODO: Add expiry
     logger.info(f"Created access token for user: {user.nickname} ({user.id})")
-    return {
-        "user": user.to_dict(),
-        "token": token
-    }
+    return {"user": user.to_dict(), "token": token}
+
 
 @router.post("/logout")
 async def logout(current_user: User = Depends(get_current_user)):
     logger.info("Logged out successfully")
     return {"success": True, "message": "Logged out successfully"}
+
 
 @router.get("/me")
 async def get_current_user_info(current_user: User = Depends(get_current_user)):

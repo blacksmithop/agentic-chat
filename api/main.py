@@ -6,7 +6,16 @@ import os
 from contextlib import asynccontextmanager
 
 from .database import engine, Base
-from .routers import auth, messages, users, files, ai, moderation,  private_chats, settings as settings_router
+from .routers import (
+    auth,
+    messages,
+    users,
+    files,
+    ai,
+    moderation,
+    private_chats,
+    settings as settings_router,
+)
 from .services.websocket_manager import WebSocketManager
 from .middleware.rate_limit import RateLimitMiddleware
 from .config import settings
@@ -17,6 +26,7 @@ Base.metadata.create_all(bind=engine)
 # WebSocket manager
 websocket_manager = WebSocketManager()
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -25,11 +35,12 @@ async def lifespan(app: FastAPI):
     # Shutdown
     print("🛑 ChatConnect API shutting down...")
 
+
 app = FastAPI(
     title="ChatConnect API",
     description="Real-time chat application API",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -52,20 +63,25 @@ app.include_router(files.router, prefix="/api/files", tags=["Files"])
 app.include_router(ai.router, prefix="/api/ai", tags=["AI"])
 app.include_router(moderation.router, prefix="/api/moderation", tags=["Moderation"])
 app.include_router(settings_router.router, prefix="/api/settings", tags=["Settings"])
-app.include_router(private_chats.router, prefix="/api/private-chats", tags=["Private Chats"])
+app.include_router(
+    private_chats.router, prefix="/api/private-chats", tags=["Private Chats"]
+)
 
 # Static files for uploads
 if not os.path.exists("uploads"):
     os.makedirs("uploads")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
+
 @app.get("/")
 async def root():
     return {"message": "ChatConnect API is running! 🚀"}
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "version": "1.0.0"}
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket, token: str = None):
@@ -77,11 +93,6 @@ async def websocket_endpoint(websocket: WebSocket, token: str = None):
     except WebSocketDisconnect:
         await websocket_manager.disconnect(websocket)
 
+
 if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=3001,
-        reload=True,
-        log_level="info"
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=3001, reload=True, log_level="info")

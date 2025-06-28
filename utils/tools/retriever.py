@@ -6,11 +6,15 @@ from utils import llm
 
 
 try:
-    vector_store = FAISS.load_local("./assets/faiss_index/base" , embeddings=llm.embedding_model, allow_dangerous_deserialization=True)
+    vector_store = FAISS.load_local(
+        "./assets/faiss_index/base",
+        embeddings=llm.embedding_model,
+        allow_dangerous_deserialization=True,
+    )
 except:
     ...
     # handle not found
-    
+
 retriever = vector_store.as_retriever()
 
 retriever_tool = create_retriever_tool(

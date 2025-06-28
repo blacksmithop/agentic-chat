@@ -21,6 +21,7 @@ python-jose = "*"
 aiofiles = "*"
 streamlit = "*"
 st-annotated-text = "*"
+black = "*"
 
 [dev-packages]
 ipykernel = "*"

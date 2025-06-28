@@ -7,18 +7,18 @@ from langgraph.checkpoint.memory import MemorySaver
 graph_builder = StateGraph(schema.State)
 memory = MemorySaver()
 
+
 def chatbot(state: schema.State):
     from langchain.schema import AIMessage
-    
+
     # Handle memory better
-    return {"messages": [llm.qa_chain.invoke({
-        "messages": state["messages"]
-    })]}
+    return {"messages": [llm.qa_chain.invoke({"messages": state["messages"]})]}
     # return {
     #     "messages": [
     #         AIMessage(content="Hi", role="assistant")
     #     ]
     # }
+
 
 graph_builder.add_node("chatbot", chatbot)
 
@@ -35,6 +35,6 @@ graph_builder.add_edge("tools", "chatbot")
 graph_builder.add_edge(START, "chatbot")
 
 checkpoint_provider = settings.CHECKPOINTER
-checkpointer=get_checkpointer(provider=checkpoint_provider)
+checkpointer = get_checkpointer(provider=checkpoint_provider)
 
 graph = graph_builder.compile(checkpointer=checkpointer)

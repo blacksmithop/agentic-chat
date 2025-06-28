@@ -1,5 +1,6 @@
 import base64
 
+
 # Function to load and encode images
 def get_base64_image(image_path):
     try:

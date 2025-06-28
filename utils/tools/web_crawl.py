@@ -16,7 +16,7 @@ def crawl_and_index_url(url: str) -> str:
     """
     loader = WebBaseLoader(url)
     docs = loader.load()
-    
+
     vector_store.add_documents(documents=docs)
     # Ensure new indices are saved
     return f"Succesffuly indexed url: {url}. Please invoke the retreive_from_vector_store tool"

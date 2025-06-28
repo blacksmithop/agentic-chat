@@ -4,15 +4,17 @@ from sqlalchemy.orm import relationship
 from api.database import Base
 import enum
 
+
 class MessageType(str, enum.Enum):
     MESSAGE = "message"
     SYSTEM = "system"
     WHISPER = "whisper"
     COMMAND = "command"
 
+
 class Message(Base):
     __tablename__ = "messages"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     nickname = Column(String(20), nullable=False)
@@ -22,9 +24,9 @@ class Message(Base):
     file_data = Column(JSON)
     target_user = Column(String(20))  # For whispers
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
+
     user = relationship("User")
-    
+
     def to_dict(self):
         return {
             "id": str(self.id),
@@ -34,5 +36,5 @@ class Message(Base):
             "type": self.message_type.value if self.message_type else "message",
             "embedData": self.embed_data,
             "fileData": self.file_data,
-            "targetUser": self.target_user
+            "targetUser": self.target_user,
         }
