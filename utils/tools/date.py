@@ -9,5 +9,5 @@ def get_date_and_time() -> str:
     """Get local date & time in DD-MM-YY  HH:MM:SS TZ format"""
     now = dt.now()
     now_local = CT.localize(now, is_dst=None)
-    time_now = now_local.strftime("%d-%m-%Y %H:%M:%S %Z")
+    time_now = now_local.strftime("Date: %d-%m-%Y Time: %H:%M:%S Time-Zone: %Z")
     return time_now
