@@ -1,6 +1,3 @@
-# Langgraph Agent
+# Agentic Chat
 
-Learn about Langgraph Agents
-
-### TODO:
-Show progress as they come, langgraph stream mode (values, etc)
+A documentation of my learning progress on designing agentic systems for chat applications.
