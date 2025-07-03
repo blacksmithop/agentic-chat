@@ -34,7 +34,10 @@ graph_builder.add_conditional_edges(
 graph_builder.add_edge("tools", "chatbot")
 graph_builder.add_edge(START, "chatbot")
 
-checkpoint_provider = settings.CHECKPOINTER
-checkpointer = get_checkpointer(provider=checkpoint_provider)
-
+if not settings.LANGGRAPH_SERVER:
+    checkpoint_provider = settings.CHECKPOINTER
+    checkpointer = get_checkpointer(provider=checkpoint_provider)
+else:
+    checkpointer=None
+    
 graph = graph_builder.compile(checkpointer=checkpointer)

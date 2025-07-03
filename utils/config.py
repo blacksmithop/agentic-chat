@@ -15,6 +15,7 @@ class Settings(BaseSettings):
 
     TAVILY_API_KEY: Optional[str] = None
 
+    LANGGRAPH_SERVER: Optional[str] = None
     CHECKPOINTER: Optional[str] = None
 
 
