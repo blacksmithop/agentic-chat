@@ -1,12 +1,7 @@
-from langchain_core.tools import tool
 from langgraph.types import interrupt
 
 
-@tool
-def human_assistance(query: str) -> str:
-    """Request assistance from a human."""
-    human_response = interrupt({"query": query})
-    return human_response
+def ask_human(query: str) -> str:
+    """Ask question to a human."""
+    return f"Your query: {query} was answer by a human"
 
-
-# TODO: Human in the loop Tool Node will update the State

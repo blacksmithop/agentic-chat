@@ -3,7 +3,8 @@ from langchain_community.tools import WikipediaQueryRun
 from langchain_community.utilities import WikipediaAPIWrapper
 from .retriever import retriever_tool
 from .web_crawl import crawl_and_index_url
-from .human import human_assistance
+from .add_human import add_human_in_the_loop
+from .human import ask_human
 from .date import get_date_and_time
 from langchain_core.messages import ToolMessage
 from langgraph.graph import END
@@ -61,6 +62,6 @@ tool_list = [
     WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper()),
     retriever_tool,
     crawl_and_index_url,
-    human_assistance,
+    add_human_in_the_loop(ask_human),
     get_date_and_time,
 ]
