@@ -4,6 +4,7 @@ from langchain_community.utilities import WikipediaAPIWrapper
 from .retriever import retriever_tool
 from .web_crawl import crawl_and_index_url
 from .human import human_assistance
+from .date import get_date_and_time
 from langchain_core.messages import ToolMessage
 from langgraph.graph import END
 from utils import schema
@@ -61,4 +62,5 @@ tool_list = [
     retriever_tool,
     crawl_and_index_url,
     human_assistance,
+    get_date_and_time
 ]

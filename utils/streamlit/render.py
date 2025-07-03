@@ -81,7 +81,6 @@ def display_messages():
     for i, message in enumerate(st.session_state.messages):
         role = message["role"]
         content = message["content"]
-        msg_type = message.get("type", "text")
         timestamp = message.get("timestamp", "")
 
         if role == "user":
@@ -187,7 +186,6 @@ def display_bot_section(messages, timestamp):
 
     # Display all messages in this bot section
     for message in messages:
-        role = message["role"]
         content = message["content"]
         msg_type = message.get("type", "text")
 

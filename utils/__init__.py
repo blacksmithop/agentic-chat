@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+
+load_dotenv()
 from .config import settings
 from .llm import chat_model, embedding_model
 from .schema import State
