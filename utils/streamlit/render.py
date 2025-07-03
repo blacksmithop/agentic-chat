@@ -187,7 +187,6 @@ def display_bot_section(messages, timestamp):
 
     # Display all messages in this bot section
     for message in messages:
-        role = message["role"]
         content = message["content"]
         msg_type = message.get("type", "text")
 
