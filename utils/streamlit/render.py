@@ -81,7 +81,6 @@ def display_messages():
     for i, message in enumerate(st.session_state.messages):
         role = message["role"]
         content = message["content"]
-        msg_type = message.get("type", "text")
         timestamp = message.get("timestamp", "")
 
         if role == "user":
