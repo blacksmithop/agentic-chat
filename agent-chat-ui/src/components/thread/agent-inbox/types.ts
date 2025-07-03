@@ -20,19 +20,28 @@ export type Email = {
   status?: "in-queue" | "processing" | "hitl" | "done";
 };
 
-export interface ThreadValues {
+export type ThreadValues = {
   email: Email;
   messages: BaseMessage[];
   triage: {
     logic: string;
     response: string;
   };
-}
+};
+
+// Add metadata type
+export type ThreadMetadata = {
+  is_fork?: boolean;
+  parent_thread_id?: string;
+  // Add other metadata fields as needed
+};
 
 export type ThreadData<
   ThreadValues extends Record<string, any> = Record<string, any>,
 > = {
-  thread: Thread<ThreadValues>;
+  thread: Thread<ThreadValues> & {
+    metadata?: ThreadMetadata; // Add metadata to thread type
+  };
 } & (
   | {
       status: "interrupted";
