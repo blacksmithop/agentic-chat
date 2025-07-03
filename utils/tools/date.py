@@ -2,7 +2,8 @@ from langchain_core.tools import tool
 from datetime import datetime as dt
 import pytz as tz
 
-CT = tz.timezone('Asia/Calcutta')
+CT = tz.timezone("Asia/Calcutta")
+
 
 @tool
 def get_date_and_time() -> str:

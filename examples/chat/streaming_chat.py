@@ -15,7 +15,7 @@ while True:
         for event in graph.stream(
             {"messages": [{"role": "user", "content": user_input}]}, config=config
         ):
-            
+
             # Check for interrupt
             if "__interrupt__" in event:
                 interrupt_obj = event["__interrupt__"][0]
@@ -28,7 +28,9 @@ while True:
                 human_response = input("[Support]: ")
 
                 # Resume the graph with human input
-                resume_events = graph.stream(Command(resume=human_response), config=config)
+                resume_events = graph.stream(
+                    Command(resume=human_response), config=config
+                )
                 for resume_event in resume_events:
                     # Process resumed events (messages, tools, etc.)
                     print(resume_event)

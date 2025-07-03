@@ -62,5 +62,5 @@ tool_list = [
     retriever_tool,
     crawl_and_index_url,
     human_assistance,
-    get_date_and_time
+    get_date_and_time,
 ]

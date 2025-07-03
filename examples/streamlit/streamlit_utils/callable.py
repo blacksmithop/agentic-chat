@@ -23,9 +23,11 @@ def get_streamlit_cb(parent_container: DeltaGenerator) -> BaseCallbackHandler:
         BaseCallbackHandler: An instance of StreamlitCallbackHandler configured for full integration
                              with ChatLLM, enabling dynamic updates in the Streamlit app.
     """
-    fn_return_type = TypeVar('fn_return_type')
+    fn_return_type = TypeVar("fn_return_type")
 
-    def add_streamlit_context(fn: Callable[..., fn_return_type]) -> Callable[..., fn_return_type]:
+    def add_streamlit_context(
+        fn: Callable[..., fn_return_type],
+    ) -> Callable[..., fn_return_type]:
         """
         Decorator to ensure that the decorated function runs within the Streamlit execution context.
         This is necessary for interacting with Streamlit components from within callback functions
@@ -46,8 +48,10 @@ def get_streamlit_cb(parent_container: DeltaGenerator) -> BaseCallbackHandler:
 
     st_cb = StreamlitCallbackHandler(parent_container)
 
-    for method_name, method_func in inspect.getmembers(st_cb, predicate=inspect.ismethod):
-        if method_name.startswith('on_'):
+    for method_name, method_func in inspect.getmembers(
+        st_cb, predicate=inspect.ismethod
+    ):
+        if method_name.startswith("on_"):
             setattr(st_cb, method_name, add_streamlit_context(method_func))
 
     return st_cb
