@@ -14,6 +14,9 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { PanelRightOpen, PanelRightClose } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Trash2, LoaderCircle } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 function ThreadList({
   threads,
@@ -23,8 +26,31 @@ function ThreadList({
   onThreadClick?: (threadId: string) => void;
 }) {
   const [threadId, setThreadId] = useQueryState("threadId");
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const { setThreads } = useThreads(); // Get setThreads from useThreads hook
 
-  return (
+   const handleDelete = async (threadId: string) => {
+    if (!window.confirm("Are you sure you want to delete this thread?")) return;
+    
+    try {
+      setDeletingId(threadId);
+      const response = await fetch(`${apiUrl}/threads/${threadId}`, {
+        method: 'DELETE'
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete thread');
+      
+      // Optimistic update - remove from local state
+      setThreads(prevThreads => prevThreads.filter(t => t.thread_id !== threadId));
+      toast.success("Thread deleted");
+    } catch (error) {
+      toast.error("Failed to delete thread");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+   return (
     <div className="flex h-full w-full flex-col items-start justify-start gap-2 overflow-y-scroll [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent">
       {threads.map((t) => {
         let itemText = t.thread_id;
@@ -39,10 +65,7 @@ function ThreadList({
           itemText = getContentString(firstMessage.content);
         }
         return (
-          <div
-            key={t.thread_id}
-            className="w-full px-1"
-          >
+          <div key={t.thread_id} className="flex w-full items-center justify-between gap-2 px-1">
             <Button
               variant="ghost"
               className="w-[280px] items-start justify-start text-left font-normal"
@@ -54,6 +77,18 @@ function ThreadList({
               }}
             >
               <p className="truncate text-ellipsis">{itemText}</p>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => handleDelete(t.thread_id)}
+              disabled={deletingId === t.thread_id}
+            >
+              {deletingId === t.thread_id ? (
+                <LoaderCircle className="h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
+              )}
             </Button>
           </div>
         );
