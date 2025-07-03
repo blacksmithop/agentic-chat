@@ -1,6 +1,6 @@
 import streamlit as st
 from utils import graph
-from utils.streamlit import assets, render, b64_image
+from streamlit_utils import assets, render, b64_image
 from uuid import uuid4
 from langgraph.types import Command
 from datetime import datetime
