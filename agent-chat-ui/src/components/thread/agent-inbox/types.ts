@@ -29,18 +29,18 @@ export type ThreadValues = {
   };
 };
 
-// Add metadata type
 export type ThreadMetadata = {
   is_fork?: boolean;
   parent_thread_id?: string;
-  // Add other metadata fields as needed
+  is_pinned?: boolean;
+  pinned_at?: string;
 };
 
 export type ThreadData<
   ThreadValues extends Record<string, any> = Record<string, any>,
 > = {
   thread: Thread<ThreadValues> & {
-    metadata?: ThreadMetadata; // Add metadata to thread type
+    metadata?: ThreadMetadata;
   };
 } & (
   | {
@@ -58,24 +58,9 @@ export type ThreadStatusWithAll = ThreadStatus | "all";
 export type SubmitType = "accept" | "response" | "edit";
 
 export interface AgentInbox {
-  /**
-   * A unique identifier for the inbox.
-   */
   id: string;
-  /**
-   * The ID of the graph.
-   */
   graphId: string;
-  /**
-   * The URL of the deployment. Either a localhost URL, or a deployment URL.
-   */
   deploymentUrl: string;
-  /**
-   * Optional name for the inbox, used in the UI to label the inbox.
-   */
   name?: string;
-  /**
-   * Whether or not the inbox is selected.
-   */
   selected: boolean;
 }
