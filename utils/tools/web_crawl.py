@@ -14,9 +14,12 @@ def crawl_and_index_url(url: str) -> str:
     Returns:
         str: _description_
     """
-    loader = WebBaseLoader(url)
-    docs = loader.load()
+    try:
+        loader = WebBaseLoader(url)
+        docs = loader.load()
 
-    vector_store.add_documents(documents=docs)
-    # Ensure new indices are saved
-    return f"Succesffuly indexed url: {url}. Please invoke the retreive_from_vector_store tool"
+        vector_store.add_documents(documents=docs)
+        # Ensure new indices are saved
+        return f"{url} indexed successfully"
+    except Exception as e:
+        return f"Crawling url {url} failed due to {str(e)}"
