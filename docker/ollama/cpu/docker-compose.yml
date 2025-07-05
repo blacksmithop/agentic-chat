@@ -1,0 +1,24 @@
+services:
+  ollama:
+    volumes:
+      - ollama:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+    image: ollama/ollama
+    ports:
+      - 11434:11434
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    # networks:
+    #   - agent-chat
+
+volumes:
+  ollama:
+    name: ollama
+
+# networks:
+#   agent-chat:
+#     name: agent-chat
+#     external: true
