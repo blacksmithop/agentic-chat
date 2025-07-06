@@ -26,7 +26,6 @@ def get_ollama_models():
     return chat_model, embeddings
 
 
-
 def get_openai_models():
     try:
         from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
@@ -35,11 +34,10 @@ def get_openai_models():
         exit(0)
     chat_model = AzureChatOpenAI(azure_deployment=settings.CHAT_MODEL)
 
-    embedding_model = AzureOpenAIEmbeddings(
-        azure_deployment=settings.EMBEDDING_MODEL
-    )
+    embedding_model = AzureOpenAIEmbeddings(azure_deployment=settings.EMBEDDING_MODEL)
 
     return chat_model, embedding_model
+
 
 match settings.LLM_PROVIDER:
     case "ollama":

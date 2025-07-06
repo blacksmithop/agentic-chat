@@ -1,15 +1,16 @@
 from typing import Callable
 from langchain_core.tools import BaseTool, tool as create_tool
 from langchain_core.runnables import RunnableConfig
-from langgraph.types import interrupt 
+from langgraph.types import interrupt
 from langgraph.prebuilt.interrupt import HumanInterruptConfig, HumanInterrupt
+
 
 def add_human_in_the_loop(
     tool: Callable | BaseTool,
     *,
     interrupt_config: HumanInterruptConfig = None,
 ) -> BaseTool:
-    """Wrap a tool to support human-in-the-loop review.""" 
+    """Wrap a tool to support human-in-the-loop review."""
     if not isinstance(tool, BaseTool):
         tool = create_tool(tool)
 
@@ -18,24 +19,17 @@ def add_human_in_the_loop(
             "allow_accept": True,
             "allow_edit": True,
             "allow_respond": True,
-            "allow_ignore": True    
+            "allow_ignore": True,
         }
 
-    @create_tool(  
-        tool.name,
-        description=tool.description,
-        args_schema=tool.args_schema
-    )
+    @create_tool(tool.name, description=tool.description, args_schema=tool.args_schema)
     def call_tool_with_interrupt(config: RunnableConfig, **tool_input):
         request: HumanInterrupt = {
-            "action_request": {
-                "action": tool.name,
-                "args": tool_input
-            },
+            "action_request": {"action": tool.name, "args": tool_input},
             "config": interrupt_config,
-            "description": "Please review the tool call"
+            "description": "Please review the tool call",
         }
-        response = interrupt([request])[0]  
+        response = interrupt([request])[0]
         # approve the tool call
         if response["type"] == "accept":
             tool_response = tool.invoke(tool_input, config)
