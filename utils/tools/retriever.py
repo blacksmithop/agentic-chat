@@ -1,6 +1,5 @@
 import faiss
 from langchain_community.vectorstores import FAISS
-from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain.tools.retriever import create_retriever_tool
 from utils import llm
 
@@ -11,8 +10,8 @@ try:
         embeddings=llm.embedding_model,
         allow_dangerous_deserialization=True,
     )
-except:
-    ...
+except Exception as e:
+    print(e)
     # handle not found
 
 retriever = vector_store.as_retriever()
