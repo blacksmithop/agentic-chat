@@ -1,6 +1,10 @@
 {
   "dependencies": ["."],
   "graphs": {
-    "chat": "./utils/graph.py:graph"
+    "basic_tool_call": "./utils/graph/basic_tool_call.py:graph",
+    "ui_response": "./utils/graph/ui_response.py:graph"
+  },
+  "ui": {
+    "ui_response": "./agent-chat-ui/src/agent/ui.tsx"
   }
 }
