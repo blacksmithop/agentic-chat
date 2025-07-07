@@ -6,3 +6,5 @@ A documentation of my learning progress on designing agentic systems for chat ap
 ## TODO:
 
 * Automatically create FAISS Index if it doesn't exist
+* Migrate to Async
+* Add node between current & weather
