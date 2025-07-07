@@ -1,11 +1,9 @@
 from langgraph.graph import StateGraph, START, END
 from utils import llm, settings, schema, tools
 from utils.memory import get_checkpointer
-from langgraph.checkpoint.memory import MemorySaver
 
 
 graph_builder = StateGraph(schema.State)
-memory = MemorySaver()
 
 
 def chatbot(state: schema.State):
@@ -26,6 +24,8 @@ graph_builder.add_conditional_edges(
 graph_builder.add_edge("tools", "chatbot")
 graph_builder.add_edge(START, "chatbot")
 
+print(settings.LANGGRAPH_SERVER)
+print(not settings.LANGGRAPH_SERVER)
 if not settings.LANGGRAPH_SERVER:
     checkpoint_provider = settings.CHECKPOINTER
     checkpointer = get_checkpointer(provider=checkpoint_provider)

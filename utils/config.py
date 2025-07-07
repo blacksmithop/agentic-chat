@@ -7,11 +7,14 @@ class Settings(BaseSettings):
         env_file=".env", env_file_encoding="utf-8", extra="ignore"
     )
 
+    LLM_PROVIDER: Optional[str] = None
+    OLLAMA_BASE_URL: Optional[str] = None
+
     AZURE_OPENAI_ENDPOINT: Optional[str] = None
     AZURE_OPENAI_API_KEY: Optional[str] = None
     OPENAI_API_VERSION: Optional[str] = None
-    AZURE_CHAT_MODEL: Optional[str] = None
-    AZURE_EMBEDDING_MODEL: Optional[str] = None
+    CHAT_MODEL: Optional[str] = None
+    EMBEDDING_MODEL: Optional[str] = None
 
     TAVILY_API_KEY: Optional[str] = None
 
