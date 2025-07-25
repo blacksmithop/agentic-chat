@@ -15,9 +15,7 @@ def get_ollama_models():
     chat_model = ChatOllama(
         base_url=settings.OLLAMA_BASE_URL,
         model=settings.CHAT_MODEL,
-        temperature=0,
-        seed=1234,
-        num_ctx=500,
+        temperature=0.3,
     )
 
     embeddings = OllamaEmbeddings(
